@@ -2,10 +2,11 @@
 #Walter Verburg - 8/28/2016 - present
 #imports
 import random
+import sys
 
 #load the dictionary file into a simple set
 def getDic():
-    fdic = open("english")
+    fdic = open(sys.argv[1])
     dic = set()
     for word in fdic:
         dic.add(word.lower())
@@ -22,8 +23,8 @@ def getWeights(words):
 		subDic = dict()
 		weights[i] = subDic
 		subDic['total'] = 0
-		for k in alphabet:
-			subDic[k] = 0 #I love it when a plan comes together
+		for l in alphabet:
+			subDic[l] = 0
 	#add words to weights
 	for word in words:
 		#print(word)
@@ -57,7 +58,7 @@ def weightedPick(dic):
 	print("Something went wrong with weightedPick, returned 'e'")
 	return "e"
 
-# run through some number (currently 50) of guesses
+# just keep guessing
 def guess(words, weights):
 	count = 0
 	stillTrying = True
@@ -71,13 +72,12 @@ def guess(words, weights):
 			#print("Curr:["+curr+"]")
 			curr = weightedPick(weights[curr])
 		#test for success
-		if (word in words):
+		if (len(word) > 3 and word+"\n" in words):
 			stillTrying = False
 			print(word, "is a word!")
 			print("and it only took", count, "tries!")
-		#else:
-		#	print(word)
-		
+		else:
+			print("Nope:", word)
 
 #main
 words = getDic()
